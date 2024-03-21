@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84b96bb214e45c2a3ca6e69b6c034a3, type: 3}
+  m_Name: SoundConfig
+  m_EditorClassIdentifier: 
+  _clipSettings:
+  - SoundType: 1
+    Clips:
+    - {fileID: 8300000, guid: 678431d90af1a124aaecee137f060ea1, type: 3}
+    - {fileID: 8300000, guid: 08b5575c24e5d6a4685cadc12ac1ea8b, type: 3}
+    - {fileID: 8300000, guid: a704da8d60f6cdc4db2a47da4bcebad0, type: 3}
+    - {fileID: 8300000, guid: f4956dc720b793949854e91b47b4a562, type: 3}
+    RandomPitchOffset: 0.01
+    RandomDelaySeconds: 0
+  - SoundType: 2
+    Clips:
+    - {fileID: 8300000, guid: 2512b792d8faf39489c1728dea06d814, type: 3}
+    - {fileID: 8300000, guid: d0ae7b87993e88d4686f122e4eb76b0c, type: 3}
+    - {fileID: 8300000, guid: 92d140a6b33222243b617294dab7df87, type: 3}
+    - {fileID: 8300000, guid: f6e34f1a28d037740b2d74a159da9cd2, type: 3}
+    RandomPitchOffset: 0.05
+    RandomDelaySeconds: 0.2
+  - SoundType: 4
+    Clips:
+    - {fileID: 8300000, guid: 7f27768a3d1f1b044b5b5180b141553a, type: 3}
+    RandomPitchOffset: 0
+    RandomDelaySeconds: 0
+  - SoundType: 3
+    Clips:
+    - {fileID: 8300000, guid: 8f76829f501750740b2972b53b604fd9, type: 3}
+    RandomPitchOffset: 0
+    RandomDelaySeconds: 0
+  _selectTilePitchModifier: 0.05
+  _maxChainLenght: 0

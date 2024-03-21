@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c388e14992fe5324a81cda67cd1a5557, type: 3}
+  m_Name: ConfigInstaller
+  m_EditorClassIdentifier: 
+  _scoreConfig: {fileID: 11400000, guid: 156635f15261dcf49b2e103fec7a9342, type: 2}
+  _boardConfig: {fileID: 11400000, guid: 989c8fdd7732854469d90cccf7d30525, type: 2}
+  _tileConfig: {fileID: 11400000, guid: 8a0bd2c4e5a98c84c87e2699a8c1fd36, type: 2}
+  _soundConfig: {fileID: 11400000, guid: 7b6639745420c5d44bb7d5b05e16f728, type: 2}
+  _goalConfig: {fileID: 11400000, guid: 386ec6f92083d3b44a6fbb7af1c326d2, type: 2}

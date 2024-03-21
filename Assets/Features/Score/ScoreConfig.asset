@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04542c929a9a4e869da4dcc97c19b224, type: 3}
+  m_Name: ScoreConfig
+  m_EditorClassIdentifier: Assembly-CSharp:Board:GameConfig
+  _TileSettings:
+  - Sprite: {fileID: 8020143640844766479, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.9686275, g: 0.9333334, b: 0.54901963, a: 1}
+  - Sprite: {fileID: -6251682230944352461, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.92549026, g: 0.08235294, b: 0.11764707, a: 1}
+  - Sprite: {fileID: 226702753830753226, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.9686275, g: 0.9686275, b: 0.9686275, a: 1}
+  - Sprite: {fileID: -1370661682523340017, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.9803922, g: 0.654902, b: 0.07450981, a: 1}
+  - Sprite: {fileID: -8276262488406422588, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.6039216, g: 0.7960785, b: 0.25882354, a: 1}
+  _minCombo: 3
+  _collectTileScore: 100
+  _comboBonusScore: 50
