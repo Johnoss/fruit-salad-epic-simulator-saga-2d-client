@@ -11,16 +11,13 @@ namespace Node
     {
         private readonly NodeModel _model;
         private readonly BoardModel _boardModel;
-        
-        private readonly BoardConfig _boardConfig;
 
         private readonly TileFactory _tileFactory;
 
-        public NodeController(NodeModel model, BoardModel boardModel, BoardConfig boardConfig, TileFactory tileFactory)
+        public NodeController(NodeModel model, BoardModel boardModel, TileFactory tileFactory)
         {
             _model = model;
             _boardModel = boardModel;
-            _boardConfig = boardConfig;
             _tileFactory = tileFactory;
 
             _boardModel.IsBoardPopulated
@@ -35,7 +32,9 @@ namespace Node
 
         private void PullAboveTile()
         {
-            for (var x = _model.Coordinates.x; x < _boardConfig.GridResolution.x; x++)
+            // Off the model, not the config: the board is rebuilt at the level's size and the
+            // config still holds whatever the first one was.
+            for (var x = _model.Coordinates.x; x < _boardModel.GridResolution.Value.x; x++)
             {
                 var iterationCoordinate = new Vector2Int(x, _model.Coordinates.y);
                 var iterationNode = _boardModel.GetNodeByCoordinates(iterationCoordinate);
@@ -79,6 +78,20 @@ namespace Node
         {
             _model.Tile.Value.Dispose();
             SetTile(null);
+        }
+
+        /// <summary>
+        /// Swaps this node's tile in place, without the gravity cascade RemoveTile triggers.
+        /// The new tile is assigned before the old one is disposed so Tile never goes null,
+        /// which is what PullAboveTile listens for.
+        /// </summary>
+        public void ReplaceTile(TileContainer tile)
+        {
+            var replacedTile = _model.Tile.Value;
+
+            SetTile(tile);
+
+            replacedTile?.Dispose();
         }
     }
 }

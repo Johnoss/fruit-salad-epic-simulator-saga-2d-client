@@ -17,18 +17,36 @@ MonoBehaviour:
   - TileType: 1
     Sprite: {fileID: 8020143640844766479, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 0.9686275, g: 0.9333334, b: 0.54901963, a: 1}
+    IsWildcard: 0
   - TileType: 2
     Sprite: {fileID: -6251682230944352461, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 0.92549026, g: 0.08235294, b: 0.11764707, a: 1}
+    IsWildcard: 0
   - TileType: 3
     Sprite: {fileID: 226702753830753226, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 0.9686275, g: 0.9686275, b: 0.9686275, a: 1}
+    IsWildcard: 0
   - TileType: 4
     Sprite: {fileID: -1370661682523340017, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 0.9803922, g: 0.654902, b: 0.07450981, a: 1}
+    IsWildcard: 0
   - TileType: 5
     Sprite: {fileID: -8276262488406422588, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 0.6039216, g: 0.7960785, b: 0.25882354, a: 1}
+    IsWildcard: 0
   - TileType: 6
     Sprite: {fileID: -1259408508766424310, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
     Color: {r: 1, g: 0.3915094, b: 0.6016979, a: 1}
+    IsWildcard: 0
+  - TileType: 7
+    Sprite: {fileID: -7921052967969465774, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 1, g: 0.9137255, b: 0.3254902, a: 1}
+    IsWildcard: 1
+  - TileType: 8
+    Sprite: {fileID: -5962389079421231736, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 0.7176471, g: 0.8, b: 0.5411765, a: 1}
+    IsWildcard: 0
+  - TileType: 9
+    Sprite: {fileID: 2788568348960109317, guid: ce4e7cc8083fde94c832b0b907756308, type: 3}
+    Color: {r: 1, g: 0.8862745, b: 0.16078432, a: 1}
+    IsWildcard: 0

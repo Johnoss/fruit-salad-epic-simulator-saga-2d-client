@@ -21,7 +21,7 @@ namespace Interaction
 
         private void UpdateInput(bool isInteracting)
         {
-            _model.SetIsInteracting(isInteracting);
+            _model.SetIsInteracting(isInteracting && !_model.IsBlocked.Value);
         }
     }
 }

@@ -39,5 +39,15 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 8f76829f501750740b2972b53b604fd9, type: 3}
     RandomPitchOffset: 0
     RandomDelaySeconds: 0
+  - SoundType: 5
+    Clips:
+    - {fileID: 8300000, guid: c502d0cfc23a3604fa4487b2acd78408, type: 3}
+    RandomPitchOffset: 0.05
+    RandomDelaySeconds: 0
+  - SoundType: 6
+    Clips:
+    - {fileID: 8300000, guid: d0a07a87db77e7f4eb2e2750faff7334, type: 3}
+    RandomPitchOffset: 0.05
+    RandomDelaySeconds: 0
   _selectTilePitchModifier: 0.05
   _maxChainLenght: 0

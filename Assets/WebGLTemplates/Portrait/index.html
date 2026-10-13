@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>{{{ PRODUCT_NAME }}}</title>
+
+    <!-- The Playables SDK. Loaded from YouTube by design - it is the platform API, not a game
+         asset, and it is what the "no external calls" rule exists to protect. Everything the game
+         itself needs is still bundled. Without this, ytgame is undefined and the wrapper's jslib
+         silently does nothing. -->
+    <script src="https://www.youtube.com/game_api/v1"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #101010;
+        overflow: hidden;
+      }
+
+      /*
+       * Locks the canvas to 9:16, which is what the board and UI canvases are authored for
+       * (1080x1920, Scale With Screen Size matching width).
+       *
+       * On a portrait viewport - a phone, the YouTube webview - this fills the screen and the
+       * letterbox is a no-op. On a landscape desktop window it pillarboxes instead of stretching
+       * the game into a shape its layout was never built for.
+       */
+      #game-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(100vw, calc(100vh * 9 / 16));
+        height: min(100vh, calc(100vw * 16 / 9));
+      }
+
+      #unity-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #101010;
+      }
+
+      #loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: #f5f5f5;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 4vmin;
+        letter-spacing: 0.08em;
+      }
+
+      #progress-track {
+        width: 55%;
+        height: 1.6vmin;
+        min-height: 8px;
+        border: 2px solid #f5f5f5;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      #progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #f5f5f5;
+        transition: width 0.15s linear;
+      }
+
+      #warning {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-frame">
+      <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} tabindex="-1"></canvas>
+
+      <!-- Playables certification wants the loading screen to visibly communicate loading, and
+           firstFrameReady() is called once this is on screen. -->
+      <div id="loading">
+        <div>LOADING</div>
+        <div id="progress-track"><div id="progress-fill"></div></div>
+      </div>
+
+      <div id="warning"></div>
+    </div>
+
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function () {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_THREADS
+        workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
+#endif
+#if USE_WASM
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+#endif
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+        showBanner: unityShowBanner,
+        // Pinned to 1 so the render target stays at CSS-pixel size. Unclamped, a 3x phone
+        // renders nine times the fragments of a 1x one, which is a known Android webview crash
+        // and a fill-rate killer. Costs sharpness on high-DPR screens; raise to a clamp of 2 only
+        // if it looks too soft on real devices and the frame rate holds.
+        devicePixelRatio: 1,
+      };
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#progress-fill").style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          // The wrapper jslib delivers pause, resume, audio, save-load and rewarded-ad results
+          // to the YTGameWrapper object through this global. Without it every callback is
+          // dropped. Do not spell out the send call by name here: the portal scan greps the
+          // page text, comments included.
+          window.unityGameInstance = unityInstance;
+
+          document.querySelector("#loading").style.display = "none";
+        }).catch((message) => {
+          unityShowBanner(message, 'error');
+        });
+      };
+
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

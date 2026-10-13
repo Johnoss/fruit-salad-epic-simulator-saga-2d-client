@@ -46,12 +46,18 @@ namespace Tile
 
         private ViewPool<TileView> _viewPool;
         private RectTransform _rectTransform;
+        private Transform _poolParent;
 
         [Impject]
         public void Construct(ViewPool<TileView> viewPool)
         {
             _viewPool = viewPool;
             _rectTransform = GetComponent<RectTransform>();
+
+            // Where the factory put it, captured before the tile ever moves. Tiles reparent to
+            // whichever node they sit on, so a pooled one is still a child of a node - and
+            // rebuilding the board destroys that node and takes the pooled tile with it.
+            _poolParent = transform.parent;
         }
 
         public void Setup(TileModel model, BoardModel boardModel, SelectionModel selectionModel)
@@ -120,6 +126,17 @@ namespace Tile
 
         public override void Dispose()
         {
+            // Cleared, not disposed: the view is going back in the pool and Setup will subscribe it
+            // again. Without this every reuse stacked another set of handlers on the long-lived
+            // models - OnCollect and NodeSideLength outlive any one tile - and a recycled view
+            // ended up rippling once per life it had ever had.
+            Disposer.Clear();
+
+            if (_poolParent != null)
+            {
+                transform.SetParent(_poolParent, false);
+            }
+
             _viewPool.AddView(this);
         }
 

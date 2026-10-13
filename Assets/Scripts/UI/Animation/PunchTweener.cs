@@ -21,6 +21,15 @@ namespace UI.Animation
             _defaultScale = TargetComponent.localScale;
         }
 
+        /// <summary>
+        /// Rebases the scale this punches from and returns to. Anything that permanently resizes
+        /// the target has to call this, or the next Play() snaps it back to the old size.
+        /// </summary>
+        public void SetDefaultScale(Vector3 defaultScale)
+        {
+            _defaultScale = defaultScale;
+        }
+
         public void Play()
         {
             KillTween();

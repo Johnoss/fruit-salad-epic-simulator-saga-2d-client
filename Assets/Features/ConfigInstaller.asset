@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConfigInstaller
   m_EditorClassIdentifier: 
   _scoreConfig: {fileID: 11400000, guid: 156635f15261dcf49b2e103fec7a9342, type: 2}
-  _boardConfig: {fileID: 11400000, guid: 989c8fdd7732854469d90cccf7d30525, type: 2}
+  _boardConfig: {fileID: 11400000, guid: 73db026751c14d24dac69d8c1b63858e, type: 2}
   _tileConfig: {fileID: 11400000, guid: 8a0bd2c4e5a98c84c87e2699a8c1fd36, type: 2}
   _soundConfig: {fileID: 11400000, guid: 7b6639745420c5d44bb7d5b05e16f728, type: 2}
   _goalConfig: {fileID: 11400000, guid: 386ec6f92083d3b44a6fbb7af1c326d2, type: 2}

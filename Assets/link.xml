@@ -1,0 +1,16 @@
+<!--
+  Managed stripping is High for WebGL (round-2 Mediacube fix, 2026-09-07: the uncompressed
+  wasm was 37.7 MB against a 30 MB per-file limit). Everything below is preserved whole so the
+  stripper only ever cuts UnityEngine and the BCL, which is where the size is. Zenject and UniRx
+  both resolve types by reflection the linker cannot see; DOTween is preserved because it is
+  cheap and its module shims are found by name.
+-->
+<linker>
+  <assembly fullname="Assembly-CSharp" preserve="all"/>
+  <assembly fullname="Zenject" preserve="all"/>
+  <assembly fullname="Zenject-usage" preserve="all"/>
+  <assembly fullname="UniRx" preserve="all"/>
+  <assembly fullname="DOTween" preserve="all"/>
+  <assembly fullname="DOTweenPro" preserve="all"/>
+  <assembly fullname="DemiLib" preserve="all"/>
+</linker>

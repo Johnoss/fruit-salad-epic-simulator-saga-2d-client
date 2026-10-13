@@ -1,0 +1,5 @@
+C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/.utmp/RelWithDebInfo/41101c6t/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/.utmp/RelWithDebInfo/41101c6t/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/.utmp/RelWithDebInfo/41101c6t/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/.utmp/RelWithDebInfo/41101c6t/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/.utmp/RelWithDebInfo/41101c6t/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

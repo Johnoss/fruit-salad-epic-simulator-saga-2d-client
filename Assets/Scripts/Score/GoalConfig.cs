@@ -7,7 +7,11 @@ namespace Score
     {
         [Header("Balancing")]
         [SerializeField]
-        private int _tilesCollectedGoal;
-        public int TilesCollectedGoal => _tilesCollectedGoal;
+        [Tooltip("Pause between the level ending and the game over panel appearing. Input is blocked " +
+                 "for the whole pause, so the last collection can land without the panel snapping in " +
+                 "on the same frame the player lifts their finger.")]
+        private float _gameOverDelaySeconds = 1.2f;
+
+        public float GameOverDelaySeconds => _gameOverDelaySeconds;
     }
 }

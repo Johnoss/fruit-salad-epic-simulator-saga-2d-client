@@ -1,5 +1,9 @@
-namespace Tile
+﻿namespace Tile
 {
+    /// <summary>
+    /// Serialized by value in TileConfig.asset - only ever append, never insert or reorder,
+    /// or every existing tile setting silently changes fruit.
+    /// </summary>
     public enum TileType
     {
         None,
@@ -8,6 +12,9 @@ namespace Tile
         Coconut,
         Orange,
         Kiwi,
-        Strawberry
+        Strawberry,
+        Starfruit,
+        Avocado,
+        Lemon
     }
 }

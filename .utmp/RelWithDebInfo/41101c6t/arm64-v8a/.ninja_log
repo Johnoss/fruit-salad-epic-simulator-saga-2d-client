@@ -1,0 +1,5 @@
+# ninja log v5
+706	835	8091989047149763	C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/41101c6t/obj/arm64-v8a/libswappywrapper.so	dc25749f04f5b516
+10	705	8091989045816954	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	c25a2b9ab292add8
+1	139	8092063474597046	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	c25a2b9ab292add8
+139	228	8092063475662615	C:/Users/HudaJ/Documents/ClaudeProjects/YT-Playables/fruit-salad/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/41101c6t/obj/arm64-v8a/libswappywrapper.so	dc25749f04f5b516

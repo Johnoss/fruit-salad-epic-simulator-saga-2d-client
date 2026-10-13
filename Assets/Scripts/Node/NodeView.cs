@@ -36,6 +36,18 @@ namespace Node
         
         private string FormattedCoordinates => $"[{_model.Coordinates.x}, {_model.Coordinates.y}]";
 
+        /// <summary>
+        /// Deactivated before destroying, because Destroy is deferred to the end of the frame while
+        /// the replacement board is built inside it. The grid layout counts children that are still
+        /// there, so without this the new board lays itself out around the old one for a frame.
+        /// </summary>
+        public override void Dispose()
+        {
+            gameObject.SetActive(false);
+
+            base.Dispose();
+        }
+
         [Impject]
         public void Construct(NodeModel model, NodeController controller, InputModel inputModel, SelectionController selectionController)
         {

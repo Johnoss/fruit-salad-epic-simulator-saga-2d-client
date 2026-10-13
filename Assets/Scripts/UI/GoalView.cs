@@ -1,5 +1,5 @@
-﻿using Board;
-using DG.Tweening;
+﻿using DG.Tweening;
+using Level;
 using MVC;
 using Score;
 using TMPro;
@@ -23,98 +23,120 @@ namespace UI
         private Image _progressFillImage;
         [SerializeField]
         private PunchTweener _goalImagePunchTweener;
-        
-        [Header("Game Over Panel")]
+
+        [Header("Level Preview Panel")]
         [SerializeField]
         private TextMeshProUGUI _scoreText;
-        [SerializeField]
-        private TextMeshProUGUI _highScoreText;
-        [SerializeField]
-        private GameObject _highScoreBeaten;
-        [SerializeField]
-        private Button _restartButton;
         [SerializeField]
         private AnchorPositionTweener _goalCompletedTweener;
 
         [SerializeField]
         private FadeTweener _goalCompletedFadeTweener;
 
+        [Header("End of content")]
+        [SerializeField]
+        [Tooltip("Shown from the moment the last level has been finished, and from then on. This " +
+                 "is the finite-content signal certification asks for, so it has to be plain: " +
+                 "something like \"You have finished all 100 levels\".")]
+        private GameObject _contentCompleteMessage;
+
         [Impject]
         private GoalModel _goalModel;
         [Impject]
         private ScoreModel _scoreModel;
-
         [Impject]
-        private ScoreController _scoreController;
-        [Impject]
-        private GoalController _goalController;
-        [Impject]
-        private BoardController _boardController;
-        
-        [Impject]
-        private GoalConfig _goalConfig;
+        private LevelModel _levelModel;
 
 
         [Impject]
         public void Initialize()
         {
-            _goalModel.CollectedTiles.Subscribe(UpdateProgress).AddTo(Disposer);
-            _goalModel.GoalReached.Subscribe(ToggleGameOverPanel).AddTo(Disposer);
+            _goalModel.CollectedTiles.SubscribeBlind(UpdateProgress).AddTo(Disposer);
+            // Starting a level replaces the objectives and so changes what a full bowl is worth,
+            // which means the bar has to redraw on goal changes too, not just on arrivals.
+            _goalModel.TilesGoal.SubscribeBlind(UpdateProgress).AddTo(Disposer);
+
+            // Punching is feedback for a goal fruit landing, which is the only thing that moves
+            // the count now.
+            _goalModel.CollectedTiles.SubscribeBlind(PlayGoalPunch).AddTo(Disposer);
+            // Panel follows IsLevelPreviewVisible, not IsLevelComplete: it is also the launch
+            // screen, and after a completion it arrives a beat late with input blocked in between.
+            _goalModel.IsLevelPreviewVisible.Subscribe(ToggleLevelPreviewPanel).AddTo(Disposer);
             
             _scoreModel.Score.Subscribe(UpdateScoreText).AddTo(Disposer);
-
-            _goalModel.GoalReached.DelayFrame(1).WhereTrue().SubscribeBlind(SetHighScore).AddTo(Disposer);
-            _restartButton.OnClickAsObservable().SubscribeBlind(FakeRestart).AddTo(Disposer);
+            _levelModel.IsContentComplete.Subscribe(ToggleContentCompleteMessage).AddTo(Disposer);
         }
 
-        private void SetHighScore()
+        private void UpdateProgress()
         {
-            var previousHighScore = _scoreModel.GetHighScore();
-            _highScoreText.text = $"{previousHighScore:F0}";
-            var highScoreBeaten = _scoreModel.Score.Value >= previousHighScore;
-            _highScoreBeaten.SetActive(highScoreBeaten);
-            if (!highScoreBeaten)
+            var totalCollectedTiles = _goalModel.CollectedTiles.Value;
+            var tilesGoal = Mathf.Max(1, _goalModel.TilesGoal.Value);
+
+            var completedPercentage = Mathf.Clamp((float)totalCollectedTiles / tilesGoal, 0f, 1f);
+
+            if (_progressFillImage != null)
             {
-                return;
+                _progressFillImage.DOFillAmount(completedPercentage, 1f).SetEase(Ease.InSine);
             }
-            
-            _highScoreText.text = $"{_scoreModel.Score.Value:F0}";
-            _scoreModel.SetHighScore(_scoreModel.Score.Value);
-        }
-
-        private void UpdateProgress(int totalCollectedTiles)
-        {
-            var completedPercentage = Mathf.Clamp((float)totalCollectedTiles / _goalConfig.TilesCollectedGoal, 0f, 1f);
-
-            _progressFillImage.DOFillAmount(completedPercentage, 1f).SetEase(Ease.InSine);
 
             // _goalText.rectTransform.DORotate(Vector3.back * completedPercentage * 25, .5f).SetEase(Ease.InSine);
             // _goalText.rectTransform.DOScale(Vector3.one + Vector3.one * completedPercentage, .5f)
             //     .SetEase(Ease.InSine);
-            
-            var remainingTiles = Mathf.Max(_goalConfig.TilesCollectedGoal - totalCollectedTiles, 0);
-            
+
+            // Optional now that the objective bars carry the readable progress. The label is the
+            // old "N left" on the bowl, which the bars replace, so a scene that has removed it is
+            // a valid setup rather than a missing reference.
+            if (_goalText == null)
+            {
+                return;
+            }
+
+            var remainingTiles = Mathf.Max(tilesGoal - totalCollectedTiles, 0);
+
             _goalText.text = $"{remainingTiles} <size=50><color=yellow>left </color></size>";
-            
-            _goalImagePunchTweener.Play();
         }
 
-        private void FakeRestart()
+        private void PlayGoalPunch()
         {
-            _scoreController.RestartScore();
-            _goalController.RestartGoal();
-            _boardController.RepopulateBoard();
+            if (_goalImagePunchTweener == null)
+            {
+                return;
+            }
+
+            _goalImagePunchTweener.Play();
         }
 
         private void UpdateScoreText(float score)
         {
+            if (_scoreText == null)
+            {
+                return;
+            }
+
             _scoreText.text = $"{score:F0}";
         }
 
-        private void ToggleGameOverPanel(bool shouldShow)
+        private void ToggleContentCompleteMessage(bool isContentComplete)
         {
-            _goalCompletedTweener.Play(!shouldShow);
-            _goalCompletedFadeTweener.Play(!shouldShow);
+            if (_contentCompleteMessage == null)
+            {
+                return;
+            }
+
+            _contentCompleteMessage.SetActive(isContentComplete);
+        }
+
+        private void ToggleLevelPreviewPanel(bool shouldShow)
+        {
+            if (_goalCompletedTweener != null)
+            {
+                _goalCompletedTweener.Play(!shouldShow);
+            }
+
+            if (_goalCompletedFadeTweener != null)
+            {
+                _goalCompletedFadeTweener.Play(!shouldShow);
+            }
         }
     }
 }

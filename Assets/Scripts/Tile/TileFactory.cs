@@ -22,12 +22,15 @@ namespace Tile
         private SelectionModel _selectionModel;
         [Impject]
         private ScoreModel _scoreModel;
-        
+
         [Impject]
         private SelectionController _selectionController;
-        
+
         [Impject]
         private TileConfig _tileConfig;
+
+        [Impject]
+        private Level.LevelModel _levelModel;
         [Impject]
         private BoardConfig _boardConfig;
 
@@ -46,17 +49,26 @@ namespace Tile
 
         public TileContainer CreateRandomTileContainer(NodeModel nodeModel)
         {
-            var tileSetting = _tileConfig.TileSettings.RandomElement();
-            
+            // The level narrows the pool; the config is the fallback for a level that names no
+            // fruit of its own, and for anything spawning before a level has started.
+            var spawnableTileSettings = _levelModel.SpawnableTileSettings.Count > 0
+                ? _levelModel.SpawnableTileSettings
+                : _tileConfig.SpawnableTileSettings;
+
+            return CreateTileContainer(spawnableTileSettings.RandomElement(), nodeModel);
+        }
+
+        public TileContainer CreateTileContainer(TileSetting tileSetting, NodeModel nodeModel)
+        {
             var tileDisposer = new CompositeDisposable();
-            
+
             var model = new TileModel(tileSetting, nodeModel.Coordinates);
             var controller = new TileController(model);
 
             var view = _tileViewPool.GetPooledOrNewView().AddTo(tileDisposer);
-            
+
             view.Setup(model, _boardModel, _selectionModel);
-            
+
             return new TileContainer(model, controller, tileDisposer).AddTo(tileDisposer);
         }
     }

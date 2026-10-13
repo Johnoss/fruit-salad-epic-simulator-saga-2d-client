@@ -8,9 +8,6 @@ namespace Node
     public class NodeFactory
     {
         [Impject]
-        private BoardConfig _boardConfig;
-
-        [Impject]
         private NodeView.ViewFactory _nodeViewFactory;
 
         [Impject]
@@ -22,10 +19,13 @@ namespace Node
         public NodeContainer CreateNode(Vector2Int coordinates)
         {
             var model = new NodeModel(coordinates);
-            var controller = new NodeController(model, _boardModel, _boardConfig, _tileFactory);
-            _nodeViewFactory.Create(model, controller);
+            var controller = new NodeController(model, _boardModel, _tileFactory);
 
-            return new NodeContainer(model, controller);
+            // Kept rather than discarded: the board is rebuilt between levels and the node objects
+            // have to be destroyed, which needs a handle on the view.
+            var view = _nodeViewFactory.Create(model, controller);
+
+            return new NodeContainer(model, controller, view);
         }
     }
 }
